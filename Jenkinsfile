@@ -8,9 +8,9 @@ pipeline {
       }
       steps {
         echo 'build'
-        writeFile file: "application.sh", text: "echo Built ${BUILD_ID} of ${JOB_NAME}"
+        writeFile(file: 'application.sh', text: "echo Built ${BUILD_ID} of ${JOB_NAME}")
         archiveArtifacts 'application.sh'
-        gateProducesArtifact file: 'application.sh', label: 'Dummy artifact to be consumed by Deploy (master branch) gate'
+        gateProducesArtifact(file: 'application.sh', label: 'Dummy artifact to be consumed by Deploy (master branch) gate')
       }
     }
     stage('Test') {
@@ -19,8 +19,8 @@ pipeline {
         branch 'test'
       }
       steps {
-        copyArtifacts projectName: '../helloworld-api/development'
-        gateConsumesArtifact file: 'application.sh'
+        copyArtifacts(projectName: 'HelloWorld-API/development', selector: 'workspace')
+        gateConsumesArtifact(file: 'application.sh')
       }
     }
     stage('Deploy') {
@@ -29,8 +29,8 @@ pipeline {
         branch 'master'
       }
       steps {
-        copyArtifacts projectName: '../helloworld-api/development'
-        gateConsumesArtifact file: 'application.sh'
+        copyArtifacts(projectName: '../helloworld-api/development')
+        gateConsumesArtifact(file: 'application.sh')
       }
     }
   }
