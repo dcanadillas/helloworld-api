@@ -19,7 +19,7 @@ pipeline {
         branch 'test'
       }
       steps {
-        copyArtifacts projectName: '../helloworld-api/development'
+        copyArtifacts(projectName: 'HelloWorld-API/development', selector: 'workspace')
         gateConsumesArtifact file: 'application.sh'
       }
     }
